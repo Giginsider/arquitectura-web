@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Validacion de Formulario</title>
+    </head>
+    <body>
+        <form id="formularioContacto" novalidate>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre">
+            <br><br>
+            <label for="email">Correo electronico:</label>
+            <input type="email" id="email" name="email" required>
+            <br><br>
+            <button type="submit">Enviar</button>
+        </form>
+        <div id="mensajeEstado"></div>
+        <script src="script.js"></script>
+    </body>
+
+</html>
