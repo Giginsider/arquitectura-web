@@ -1,20 +1,28 @@
 const form = document.getElementById("loginForm");
 
-form.addEventListener("submit", async (e) => {
+form.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
-    const response = await fetch("http://localhost:3000/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ username, password})
-    });
+    const mensaje = document.getElementById("mensaje");
 
-    const data = await response.json();
+    // 🔥 LOGIN SIMULADO
+    if (username === "Fernando Pérez" && password === "1234") {
+        mensaje.style.color = "green";
+        mensaje.innerText = "Acceso permitido";
 
-    document.getElementById("mensaje").innerText = data.message;
+        // Guardar usuario
+        localStorage.setItem("usuario", username);
+
+        // Redirigir
+        setTimeout(() => {
+            window.location.href = "login.html";
+        }, 1000);
+
+    } else {
+        mensaje.style.color = "red";
+        mensaje.innerText = "Usuario o contraseña incorrectos";
+    }
 });
