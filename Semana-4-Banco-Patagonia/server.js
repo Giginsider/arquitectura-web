@@ -11,18 +11,14 @@ const PORT = 3000;
 app.use(express.json());        // Parsea body JSON de las peticiones
 app.use(cookieParser());        // Habilita lectura de cookies
 
-// ── Rutas ─────────────────────────────────────────────────────────
+// ── Rutas de la API ───────────────────────────────────────────────
 app.use('/api/auth', authRoutes);      // Login y logout
 app.use('/api',      privateRoutes);   // Rutas protegidas
 
-// ── Ruta raiz (pagina de bienvenida del banco) ────────────────────
-app.get('/', (req, res) => {
-  res.json({
-    banco:   "Banco Patagonia",
-    mensaje: "Bienvenido al portal digital seguro.",
-    login:   "POST /api/auth/login"
-  });
-});
+// ── Archivos estáticos (HTML, CSS, imágenes, JS del frontend) ─────
+// Express busca el archivo pedido dentro de la carpeta del proyecto.
+// Si alguien entra a "/" sin especificar archivo, sirve login.html.
+app.use(express.static('.', { index: 'login.html' }));
 
 // ── Iniciar servidor ──────────────────────────────────────────────
 app.listen(PORT, () => {

@@ -19,3 +19,5 @@ const users = [
     saldo: 3480000
   }
 ];
+
+module.exports = users;

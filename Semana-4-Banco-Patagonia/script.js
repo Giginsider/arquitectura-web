@@ -1,23 +1,27 @@
 const form = document.getElementById("loginForm");
 
-form.addEventListener("submit", function(e) {
+form.addEventListener("submit", async function(e) {
     e.preventDefault();
 
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
-    const mensaje = document.getElementById("mensaje");
+    const mensaje  = document.getElementById("mensaje");
 
-    // Buscar si algún usuario coincide con usuario y contraseña
-    const usuarioEncontrado = users.find(function(u) {
-        return u.username === username && u.password === password;
+    // Enviamos las credenciales al servidor. El servidor valida, genera el JWT
+    // y lo guarda como cookie httpOnly (el navegador la recibe automáticamente).
+    const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
     });
 
-    if (usuarioEncontrado) {
-        // Guardar datos del usuario en sessionStorage para usarlos en cuenta.html
-        sessionStorage.setItem("usuarioLogueado", JSON.stringify(usuarioEncontrado));
-        window.location.href = "login.html";
+    if (response.ok) {
+        // Login exitoso: el servidor ya guardó el JWT en la cookie.
+        // Redirigimos al dashboard, que verificará la sesión con el servidor.
+        window.location.href = "index.html";
     } else {
+        const data = await response.json();
         mensaje.style.color = "red";
-        mensaje.innerText = "Usuario o contraseña incorrectos.";
+        mensaje.innerText = data.message || "Error al iniciar sesión";
     }
 });
