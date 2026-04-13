@@ -2,29 +2,90 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
-
-    <link rel ="stylesheet" href="css/style.css">
+    <title>Mi Cuenta - Banco Patagonia</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .cuenta-container {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            width: 360px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        .bienvenida {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .dato {
+            margin: 10px 0;
+            font-size: 15px;
+            color: #444;
+        }
+        .dato span {
+            font-weight: bold;
+            color: #003366;
+        }
+        .saldo {
+            margin-top: 20px;
+            font-size: 22px;
+            color: #003366;
+            font-weight: bold;
+        }
+        .btn-salir {
+            margin-top: 25px;
+            width: 100%;
+            padding: 12px;
+            background: #003366;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+        .btn-salir:hover {
+            background: #0055aa;
+        }
+    </style>
 </head>
 <body>
-
-    <div class="login-container">
-
+    <div class="cuenta-container">
         <img src="Public/1115389.png" style="width: 50px; height: 50px;"/>
-    <div class="logo">Banco Patagonia</div>
-     <h2>Iniciar sesión</h2>
-     
-<form id="loginForm">
-    <input type="text" id="username" placeholder="Usuario" required>
-    <input type="password" id="password" placeholder="Contraseña" required>
-    <button type="submit">Entrar</button>
-</form>
+        <div class="logo">Banco Patagonia</div>
+        <h2>Mi cuenta</h2>
 
-<p id="mensaje"></p>
-</div>
-<script src="data/users.js"></script>
-<script src="script.js"></script>
+        <p class="bienvenida">Bienvenido/a, <span id="nombre"></span></p>
+        <p class="dato">Número de cuenta: <span id="cuenta"></span></p>
+        <p class="saldo">Saldo disponible: $<span id="saldo"></span></p>
 
+        <button class="btn-salir" onclick="cerrarSesion()">Cerrar sesión</button>
+    </div>
 
+    <script>
+        // Al cargar la página, le preguntamos al servidor si el JWT en la cookie
+        // es válido. Si lo es, el servidor nos devuelve los datos del usuario.
+        // Si no hay sesión (o el token expiró/fue invalidado), redirigimos al login.
+        async function cargarCuenta() {
+            const response = await fetch('/api/mi-cuenta');
+
+            if (!response.ok) {
+                window.location.href = "login.html";
+                return;
+            }
+
+            const data = await response.json();
+            document.getElementById("nombre").innerText = data.usuario.nombre;
+            document.getElementById("cuenta").innerText = data.usuario.cuenta;
+            document.getElementById("saldo").innerText = data.usuario.saldo.toLocaleString("es-AR");
+        }
+
+        async function cerrarSesion() {
+            // Le avisamos al servidor para que invalide el JWT en la lista negra
+            await fetch('/api/auth/logout', { method: 'POST' });
+            window.location.href = "login.html";
+        }
+
+        cargarCuenta();
+    </script>
 </body>
 </html>

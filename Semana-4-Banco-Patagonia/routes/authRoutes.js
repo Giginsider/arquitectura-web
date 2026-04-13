@@ -1,6 +1,7 @@
-const express = require('express');
-const jwt = require('jsonwebtoken');
-const users = require('../data/users');
+const express  = require('express');
+const jwt      = require('jsonwebtoken');
+const users    = require('../data/users');
+const blacklist = require('../data/tokenBlacklist');
 
 const router = express.Router();
 
@@ -33,20 +34,29 @@ router.post('/login', (req, res) => {
   );
 
   res.cookie('token', token, {
-    httpOnly: true
+    httpOnly: true  // El navegador no puede leer la cookie con JavaScript (más seguro)
   });
 
   res.json({
-    message: "Login exitoso"
+    message: "Login exitoso",
+    token   // Devolvemos el token en el body también para poder inspeccionarlo fácilmente
   });
 });
 
 // LOGOUT
 router.post('/logout', (req, res) => {
+  const token = req.cookies.token;
+
+  // Si hay un token activo, lo agregamos a la lista negra para que
+  // el servidor lo rechace aunque alguien intente reutilizarlo
+  if (token) {
+    blacklist.add(token);
+  }
+
   res.clearCookie('token');
 
   res.json({
-    message: "Sesión cerrada"
+    message: "Sesión cerrada. El token fue invalidado."
   });
 });
 
