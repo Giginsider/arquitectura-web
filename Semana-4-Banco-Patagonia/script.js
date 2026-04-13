@@ -1,20 +1,23 @@
 const form = document.getElementById("loginForm");
 
-form.addEventListener("submit", async (e) => {
+form.addEventListener("submit", function(e) {
     e.preventDefault();
 
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
+    const mensaje = document.getElementById("mensaje");
 
-    const response = await fetch("http://localhost:3000/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ username, password})
+    // Buscar si algún usuario coincide con usuario y contraseña
+    const usuarioEncontrado = users.find(function(u) {
+        return u.username === username && u.password === password;
     });
 
-    const data = await response.json();
-
-    document.getElementById("mensaje").innerText = data.message;
+    if (usuarioEncontrado) {
+        // Guardar datos del usuario en sessionStorage para usarlos en cuenta.html
+        sessionStorage.setItem("usuarioLogueado", JSON.stringify(usuarioEncontrado));
+        window.location.href = "login.html";
+    } else {
+        mensaje.style.color = "red";
+        mensaje.innerText = "Usuario o contraseña incorrectos.";
+    }
 });
