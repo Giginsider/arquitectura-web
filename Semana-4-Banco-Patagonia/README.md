@@ -4,11 +4,11 @@
 Banco Patagonia es una aplicación web de banca digital que implementa un sistema de autenticación seguro basado en JWT (JSON Web Tokens) con httpOnly cookies. La aplicación permite a los clientes iniciar sesión, visualizar su información de cuenta y saldo, además de cerrar sesión de forma segura.
 
 ## 🛠️ Tecnologías Utilizadas
-Backend: Node.js con Express.js
-Autenticación: JWT (jsonwebtoken)
-Gestión de cookies: cookie-parser
-Frontend: HTML5, CSS3, JavaScript vanilla
-Gestión de dependencias: npm
+- **Backend**: Node.js con Express.js
+- **Autenticación**: JWT (jsonwebtoken)
+- **Gestión de cookies**: cookie-parser
+- **Frontend**: HTML5, CSS3, JavaScript vanilla
+- **Gestión de dependencias**: npm
 
 ## 🏗️ Arquitectura
 La aplicación sigue una arquitectura modular con separación de responsabilidades:
