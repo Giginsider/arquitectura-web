@@ -62,30 +62,21 @@
     </div>
 
     <script>
-        // Al cargar la página, le preguntamos al servidor si el JWT en la cookie
-        // es válido. Si lo es, el servidor nos devuelve los datos del usuario.
-        // Si no hay sesión (o el token expiró/fue invalidado), redirigimos al login.
-        async function cargarCuenta() {
-            const response = await fetch('/api/mi-cuenta');
+        const usuario = JSON.parse(sessionStorage.getItem("usuarioLogueado"));
 
-            if (!response.ok) {
-                window.location.href = "login.html";
-                return;
-            }
-
-            const data = await response.json();
-            document.getElementById("nombre").innerText = data.usuario.nombre;
-            document.getElementById("cuenta").innerText = data.usuario.cuenta;
-            document.getElementById("saldo").innerText = data.usuario.saldo.toLocaleString("es-AR");
+        // Si no hay sesión activa, volver al login
+        if (!usuario) {
+            window.location.href = "index.html";
+        } else {
+            document.getElementById("nombre").innerText = usuario.nombre;
+            document.getElementById("cuenta").innerText = usuario.cuenta;
+            document.getElementById("saldo").innerText = usuario.saldo.toLocaleString("es-AR");
         }
 
-        async function cerrarSesion() {
-            // Le avisamos al servidor para que invalide el JWT en la lista negra
-            await fetch('/api/auth/logout', { method: 'POST' });
-            window.location.href = "login.html";
+        function cerrarSesion() {
+            sessionStorage.removeItem("usuarioLogueado");
+            window.location.href = "index.html";
         }
-
-        cargarCuenta();
     </script>
 </body>
 </html>
