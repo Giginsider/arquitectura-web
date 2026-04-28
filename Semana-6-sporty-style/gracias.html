@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>¡Gracias! | SportyStyle</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header>
+    <h1>SPORTY<span class="acento">STYLE</span></h1>
+    <p class="sponsor">Sponsor Oficial · Mercedes-AMG Petronas F1 Team</p>
+  </header>
+
+  <main class="pago-wrapper">
+    <section class="pago-card gracias-card">
+      <div class="check-icono">🏁</div>
+      <h2>¡Gracias por tu compra!</h2>
+      <p class="pago-sub">Tu pedido fue recibido. Pit stop completado con éxito.</p>
+
+      <h3 class="titulo-resumen">Detalle del pedido</h3>
+      <ul id="resumen" class="lista-resumen"></ul>
+
+      <div class="total-final-box">
+        <span>Total pagado:</span>
+        <strong>$<span id="total-final">0</span></strong>
+      </div>
+
+      <div class="acciones acciones-centradas">
+        <a href="index.html" class="btn-primario">🏎️ Volver a la tienda</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const carrito = JSON.parse(sessionStorage.getItem("carrito") || "[]");
+    document.getElementById("resumen").innerHTML =
+      carrito.map(i =>
+        `<li><span>${i.nombre} x ${i.cantidad}</span><span>$${(i.precio * i.cantidad).toLocaleString("es-CL")}</span></li>`
+      ).join("");
+    const total = carrito.reduce((s, i) => s + i.precio * i.cantidad, 0);
+    document.getElementById("total-final").innerText = total.toLocaleString("es-CL");
+    sessionStorage.removeItem("carrito"); // se limpia al terminar la compra
+  </script>
+</body>
+</html>
