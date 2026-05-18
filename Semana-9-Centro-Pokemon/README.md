@@ -11,8 +11,8 @@ del Centro Pokémon.
  
 ## Instalación
  
-git clone https://github.com/tu-usuario/centro-pokemon-api.git
-cd centro-pokemon-api
+git clone https://github.com/Giginsider/arquitectura-web.git
+cd arquitectura-web/Semana-9-Centro-Pokemon
 npm install
  
 ## Configuración
@@ -43,4 +43,5 @@ El servidor queda en http://localhost:3000
 | DELETE | /api/clientes/:id | Elimina         |
  
 ## Pruebas
-Importa el archivo postman_collection.json en Postman.
+Importa el archivo Centro_pokemon.postman_collection.json en Postman.
+Importa el archivo local.postman_environment.json en Postman.
