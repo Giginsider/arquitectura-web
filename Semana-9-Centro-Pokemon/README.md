@@ -10,21 +10,22 @@ del Centro Pokémon.
 - dotenv
  
 ## Instalación
- 
+ ```
 git clone https://github.com/Giginsider/arquitectura-web.git
 cd arquitectura-web/Semana-9-Centro-Pokemon
 npm install
+ ```
  
 ## Configuración
 Crea un archivo .env en la raíz con:
- 
+```
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=tu_password
 DB_NAME=centro_pokemon
 DB_PORT=3306
 PORT=3000
- 
+ ```
 Luego ejecuta el script SQL database.sql en tu MySQL.
  
 ## Ejecución
@@ -43,5 +44,7 @@ El servidor queda en http://localhost:3000
 | DELETE | /api/clientes/:id | Elimina         |
  
 ## Pruebas
+```
 Importa el archivo Centro_pokemon.postman_collection.json en Postman.
 Importa el archivo local.postman_environment.json en Postman.
+```
